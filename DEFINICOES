@@ -1,0 +1,11 @@
+1- O que vai ser a população ?
+	R: N nós randômicos onde N < M e M é o número de nós da rede
+2- O que vai ser meu fitness ?
+	R: Extended Modularity
+3- Como farei a seleção ?
+	R: Seleciono a melhor comunidade e retiro da rede ? Torneio ? Roleta ? Não sei !
+4- Cruzamento ?
+	R: Diferença de conjuntos (Assim como no DeCode)? Apenas para seeds da mesma comunidade (fica monotono) ?
+5- Mutação ?
+	R: Aleatoriamente retiro um vértice ? Adiciono um vértice ?
+	Expando enquanto ouver ganho no fit ?
