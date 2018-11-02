@@ -35,16 +35,18 @@ def expansaoDeVertices(vertice, grafo):
 		grafoComunidade.vs[grafoComunidade.vcount()-1]['id'] = vizinhos[i] ## o último adicionado recebendo seu id
 
 
-		#idArestas = grafo.get_eids(pairs = [(vizinhos[i], vertice)], directed = False)
-		#for j in idArestas:
+		verticesEscolhidos = []
+		for v in grafoComunidade.vs():
+			if v['id'] == vizinhos[i]:
+				verticesEscolhidos.append(v)
+			elif v['id'] == vertice:
+				verticesEscolhidos.append(v)
+
 
 		try:
-			grafoComunidade.add_edge(vertice, grafoComunidade.vs[grafoComunidade.vcount()-1]['id'], weight = grafo.es['weight'])
+			grafoComunidade.add_edge(verticesEscolhidos[0], verticesEscolhidos[1], weight = grafo.es['weight'])
 		except:
-			print(vertice, grafoComunidade.vs[len(grafoComunidade.vs)-1]['id'])
-			print(grafoComunidade.vs['id'])
-			print(vizinhos[i])
-			grafoComunidade.add_edge(vertice, vizinhos[i], weight = 1)
+			grafoComunidade.add_edge(verticesEscolhidos[0], verticesEscolhidos[1], weight = 1)
 		
 		modularidadeNova = modularidade.modularidadeLocal(grafo, grafoComunidade)
 
