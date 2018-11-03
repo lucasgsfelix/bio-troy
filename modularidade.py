@@ -70,6 +70,7 @@ def modularidadeLocal(grafo, comunidade):
 		define o algoritmo de multilevel) 
 	 '''
 
+	indiceModularidade = 0
 	pesoTotal = calculaPesos(grafo)
 	pesoComunidade = calculaPesos(comunidade)
 	pesosIncidentesComunidade = calculaPesosIncidentes(grafo, comunidade.vs['id'])
@@ -77,9 +78,9 @@ def modularidadeLocal(grafo, comunidade):
 	pesoNo = calculaPesoNo(grafo, comunidade.vs['id'][len(comunidade.vs['id'])-1])
 	primeiraParte = ((pesoComunidade + pesoNo)/2*pesoTotal) - ((pesosIncidentesComunidade + pesosIncidentesNo)/(2*pesoTotal))**2
 	segundaParte = (pesoComunidade/2*pesoTotal) - (pesosIncidentesComunidade/2*pesoTotal)**2 - (pesosIncidentesNo/2*pesoTotal)**2
-	modularidade = primeiraParte - segundaParte
+	indiceModularidade = primeiraParte - segundaParte
 
-	return modularidade
+	return indiceModularidade
 
 
 
