@@ -84,6 +84,8 @@ def expansaoDeVertices(vertice, grafo):
 				vertice =  v['id'] ### definindo o novo vértice
 				break
 
+	return grafoComunidade.vs['id']
+
 
 if __name__ == '__main__':
 	
@@ -92,13 +94,13 @@ if __name__ == '__main__':
 	populacao = definePopulacao(grafo.vs['id'], 3)
 	numGeracoes = 100
 
-
+	comunidades = []
 	for k in range(0, numGeracoes):
 
 		for i in populacao: ### etapa de expansão para cada um dos vértices
 
-			expansaoDeVertices(i, grafo)
-			exit()
+			comunidades.append(expansaoDeVertices(i, grafo))
+
 
 
 
