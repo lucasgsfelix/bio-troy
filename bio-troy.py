@@ -9,7 +9,9 @@ def definePopulacao(vertices, numIndividuos):
 	''' Define os vértices que serão os individuos '''
 	populacao = []
 	for i in range(0, numIndividuos):
-		populacao.append(random.randint(0, len(vertices)))
+		individuo = random.randint(0, len(vertices))
+		if not individuo in populacao:
+			populacao.append(individuo)
 
 	return populacao
 
