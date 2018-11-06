@@ -13,6 +13,8 @@ def definePopulacao(vertices, numIndividuos):
 		if not individuo in populacao:
 			populacao.append(individuo)
 
+	print(populacao)
+
 	return populacao
 
 
@@ -52,23 +54,19 @@ def expansaoDeVertices(vertice, grafo):
 				grafoComunidade.add_vertices(1)
 				grafoComunidade.vs[grafoComunidade.vcount()-1]['id'] = vizinhos[i] ## o último adicionado recebendo seu id
 
-
 				verticesEscolhidos = []
 				for v in grafoComunidade.vs(): ##tenho que pegar o objeto do vértice com aquele id
 					if v['id'] == vizinhos[i]:
 						verticesEscolhidos.append(v)
 					elif v['id'] == vertice:
 						verticesEscolhidos.append(v)
-
-
 				try:
 					grafoComunidade.add_edge(verticesEscolhidos[0], verticesEscolhidos[1], weight = grafo.es['weight'])
 				except:
 					grafoComunidade.add_edge(verticesEscolhidos[0], verticesEscolhidos[1], weight = 1)
 				
 				modularidadeNova = modularidade.modularidadeLocal(grafo, grafoComunidade)
-
-				#print(modularidadeNova)
+	
 				if modularidadeNova >= modularidadeInicial:
 					modularidadeInicial = modularidadeNova
 				else: ### quer dizer que a modularidade diminuiu
@@ -93,7 +91,7 @@ if __name__ == '__main__':
 	
 	random.seed()
 	grafo = Graph.Read_GML("REDE/karate.gml") ### lendo o grafo no formato gml
-	populacao = definePopulacao(grafo.vs['id'], 3)
+	populacao = definePopulacao(grafo.vs['id'], 4)
 	numGeracoes = 100
 
 	comunidades = []
@@ -102,6 +100,9 @@ if __name__ == '__main__':
 		for i in populacao: ### etapa de expansão para cada um dos vértices
 
 			comunidades.append(expansaoDeVertices(i, grafo))
+
+		print(comunidades)
+		exit()
 
 
 
