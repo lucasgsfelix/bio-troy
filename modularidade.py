@@ -11,11 +11,47 @@ def calculaPesos(grafo):
 
 	return pesoTotal
 
-def modularidadeExpandida(grafo):
+def contaComunidades(vertice, comunidades):
+
+	quantComunidades = 0
+	for i in comunidades:
+		if vertice in i :
+			quantComunidades = quantComunidades + 1
+
+
+	return quantComunidades
+
+
+def modularidadeExpandida(grafo, comunidades):
 
 	''' Essa irá calcular a qualidade da rede como um todo, após definida as comunidades '''
+	m=1/(2*grafo.ecount())
+	soma = 0
+	for v in grafo.vs():
+		for w  in grafo.vs():
+			for k in comunidades:
+				if (v['id'] in k) and (w['id'] in k):
+					ov = contaComunidades(v['id'], comunidades)
+					ow = contaComunidades(w['id'], comunidades)
+					primeiraParte = (1.0/(ov*ow))
 
-	pass
+
+					kv = (grafo.neighborhood(vertices = v, mode = "ALL"))
+					if w in kv:
+						avw = 1
+					else:
+						avw = 0
+
+					kv = len(kv)
+					kw = len(grafo.neighborhood(vertices = w, mode = "ALL"))
+
+					segundaParte = (avw-(kv*kw*m))
+					
+					soma = (primeiraParte*segundaParte) + soma
+	soma = m*soma
+	print(soma)
+	return soma
+
 
 
 def calculaPesosIncidentes(grafo, verticesComunidade): ## tot

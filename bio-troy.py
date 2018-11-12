@@ -13,8 +13,6 @@ def definePopulacao(vertices, numIndividuos):
 		if not individuo in populacao:
 			populacao.append(individuo)
 
-	print(populacao)
-
 	return populacao
 
 
@@ -101,7 +99,7 @@ if __name__ == '__main__':
 
 			comunidades.append(expansaoDeVertices(i, grafo))
 
-		print(comunidades)
+		modularidadeExtendida = modularidade.modularidadeExpandida(grafo, comunidades)
 		exit()
 
 
