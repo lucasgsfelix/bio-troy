@@ -37,7 +37,7 @@ def modularidadeExpandida(grafo, comunidades):
 
 
 					kv = (grafo.neighborhood(vertices = v, mode = "ALL"))
-					if w in kv:
+					if w['id'] in kv:
 						avw = 1
 					else:
 						avw = 0
@@ -45,6 +45,7 @@ def modularidadeExpandida(grafo, comunidades):
 					kv = len(kv)
 					kw = len(grafo.neighborhood(vertices = w, mode = "ALL"))
 
+					#print(1 - kv*kw*m)
 					segundaParte = (avw-(kv*kw*m))
 					
 					soma = (primeiraParte*segundaParte) + soma
