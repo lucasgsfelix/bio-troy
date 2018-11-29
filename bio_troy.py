@@ -12,10 +12,13 @@ def defineVizinhos(grafo, vertice):
 	except:
 		vertice = modularidade.retornaIds(grafo, vertice)
 		vizinhos = grafo.neighborhood(vertices = vertice)
+	
 	for i in range(0, len(vizinhos)): ### evitando self loops
 		if vizinhos[i] == vertice:
 			vizinhos.pop(i)
 			break
+
+	#vizinhos = modularidade.retornaIds(grafo, vizinhos)
 
 	return vizinhos
 
@@ -92,6 +95,7 @@ def fitness(grafo, populacao):
 		comunidades.append(expansaoDeVertices(i, grafo))
 	
 	modularidadeExtendida = modularidade.modularidadeExpandida(grafo, comunidades)
-	
+
+
 	return modularidadeExtendida
 

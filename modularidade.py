@@ -155,6 +155,7 @@ def modularidadeLocal(grafo, comunidade):
 	primeiraParte = ((pesoComunidade + pesoNo)/(2.0*pesoTotal)) - ((pesosIncidentesComunidade + pesosIncidentesNo)/(2.0*pesoTotal))**2
 	segundaParte = (pesoComunidade/(2.0*pesoTotal)) - (pesosIncidentesComunidade/(2.0*pesoTotal))**2 - (pesosIncidentesNo/(2.0*pesoTotal))**2
 	indiceModularidade = primeiraParte - segundaParte
+	
 	return indiceModularidade
 
 

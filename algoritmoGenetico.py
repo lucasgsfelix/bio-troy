@@ -1,6 +1,8 @@
 from igraph import *
 import random
 import bio_troy
+import numpy as np
+import matplotlib.pyplot as plt
 
 def definePopulacao(vertices, numIndividuos):
 
@@ -21,13 +23,128 @@ def definePopulacao(vertices, numIndividuos):
 	return populacao
 
 
+def selecaoTorneio(fit, melhoresComunidades):
+
+	novaPopulacao = []
+	for i in range(0, len(melhoresComunidades)):
+		
+		competidorUm = random.randint(0, len(melhoresComunidades)-1)
+		competidorDois = random.randint(0, len(melhoresComunidades)-1)
+
+		if fit[competidorDois] >= fit[competidorUm]:
+			novaPopulacao.append(melhoresComunidades[competidorDois])
+		else:
+			novaPopulacao.append(melhoresComunidades[competidorUm])
+
+	return novaPopulacao
+
+def cruzamentoCorte(paiUm, paiDois):
+
+
+	pInicial = int(len(paiUm)/3)
+	meioUm = paiUm[pInicial:pInicial*2] ### coloquei metade um  meio do filho 1
+	meioDois = paiDois[pInicial:pInicial*2]
+
+	filhoUm = []
+	filhoDois = []
+	for i in meioUm: filhoUm.append(i)
+	for i in meioDois: filhoDois.append(i)
+
+	for i in paiDois:
+		if not i in filhoUm:
+			filhoUm.append(i)
+	for i in paiUm:
+		if not i in filhoDois:
+			filhoDois.append(i)
+
+	return filhoUm, filhoDois
+
+
+def mutacao(taxaMutacao, individuo, grafo):
+
+
+	x = random.uniform(0, 1)
+
+	if x <= taxaMutacao:
+
+		x = random.randint(1, len(individuo)-1)
+		
+		i=0
+		while(i<x):
+			
+			vertice = random.randint(0, grafo.vcount()-1)
+			if not vertice in individuo:
+				individuo[random.randint(0, len(individuo)-1)] = vertice
+				i=i+1
+
+	return individuo
+
+def grafica(x1):
+
+	x = np.array(range(len(x1)))
+
+	#plt.plot( x, x1, 'go') # green bolinha
+	plt.plot( x, x1,color='red') # linha pontilha orange
+
+	#plt.plot( x, x2, 'r^') # red triangul
+
+	#plt.axis([-10, 60, 0, 11])
+	plt.title("Algoritmo DCS")
+
+
+	plt.grid(True)
+	plt.xlabel("Gerações")
+	plt.ylabel("Fitness")
+	plt.show()
+
+
 if __name__ == '__main__':
 	
 	random.seed()
 	grafo = Graph.Read_GML("REDE/karate.gml") ### lendo o grafo no formato gml
-	populacao = definePopulacao(grafo.vs['id'], 100)
-	numGeracoes = 100
-	teste = []
-	for i in range(0, len(populacao)):
-		teste.append(bio_troy.fitness(grafo, populacao[i]))
-	print(max(teste))
+	populacao = definePopulacao(grafo.vs['id'], 10)
+	numGeracoes = 10
+	melhorAtual = 0
+	melhoresComunidades = []
+	melhoresFitness = []
+	taxaMutacao = 0.01
+	for k in range(0, numGeracoes):
+
+		fit = []
+		for i in range(0, len(populacao)):
+			fit.append(bio_troy.fitness(grafo, populacao[i]))
+		
+		if max(fit) > melhorAtual: ## atualizo o melhor elemento
+			
+			melhorAtual = max(fit)
+			melhoresComunidades.append(populacao[fit.index(max(fit))])
+		else: ### caso não seja melhor
+
+			melhoresComunidades.append(populacao[fit.index(max(fit))])
+
+		melhoresFitness.append(max(fit))
+
+		## seleção
+
+		fit, populacao = (list(x) for x in zip(*sorted(zip(fit, populacao), reverse=False)))
+		selecionados = selecaoTorneio(fit, populacao)
+
+		## cruzamento
+		populacao = []
+		for i in range(0, len(selecionados)-1, 2):
+			filhoUm, filhoDois = cruzamentoCorte(selecionados[i], selecionados[i+1])
+			populacao.append(filhoUm)
+			populacao.append(filhoDois)
+		
+		populacao.pop(len(populacao)-1)
+		populacao.append(melhoresComunidades[len(melhoresComunidades)-1])
+
+		## mutação
+		for i in range(0, len(populacao)):
+			populacao[i] = mutacao(taxaMutacao, populacao[i], grafo)
+
+
+
+	grafica(melhoresFitness)
+	#print(populacao.index(max(teste)))
+	
