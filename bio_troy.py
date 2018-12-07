@@ -85,7 +85,29 @@ def expansaoDeVertices(vertice, grafo):
 
 	return grafoComunidade.vs['id']
 
+def retiraAutocontidas(comunidades):
 
+	i=0
+	while(i<len(comunidades)):
+		j=0
+		while(j<len(comunidades)):
+			if i!=j:
+				intersec = set(comunidades[i]).intersection(set(comunidades[j]))
+				if intersec == set(comunidades[i]):
+					comunidades.pop(i)
+					i=i-1
+					j=j-1
+				elif intersec == set(comunidades[j]):
+					comunidades.pop(j)
+					j=j-1
+					i=i-1
+				if i<0 or j<0 or len(comunidades)<0:
+					break
+			j=j+1
+		i=i+1
+	return comunidades
+
+	
 def fitness(grafo, populacao):
 	
 
@@ -93,6 +115,10 @@ def fitness(grafo, populacao):
 	for i in populacao: ### etapa de expansão para cada um dos vértices
 
 		comunidades.append(expansaoDeVertices(i, grafo))
+
+	### tenho que retirar comunidades auto-contidas
+	comunidades = retiraAutocontidas(comunidades)
+
 	
 	modularidadeExtendida = modularidade.modularidadeExpandida(grafo, comunidades)
 

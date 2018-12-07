@@ -13,7 +13,7 @@ def definePopulacao(vertices, numIndividuos):
 		j=0
 		individuo = []
 		while(j<(tamanhoIndividuo)):
-			gene = random.randint(0, len(vertices))
+			gene = random.randint(0, len(vertices)-1)
 			if not gene in individuo:
 				individuo.append(gene)
 				j=j+1
@@ -67,15 +67,17 @@ def mutacao(taxaMutacao, individuo, grafo):
 
 	if x <= taxaMutacao:
 
-		x = random.randint(1, len(individuo)-1)
-		
-		i=0
-		while(i<x):
+		if len(individuo)>1:
+			x = random.randint(1, len(individuo)-1)
 			
-			vertice = random.randint(0, grafo.vcount()-1)
-			if not vertice in individuo:
-				individuo[random.randint(0, len(individuo)-1)] = vertice
-				i=i+1
+			i=0
+			while(i<x):
+				
+				vertice = random.randint(0, grafo.vcount()-1)
+				if not vertice in individuo:
+					individuo[random.randint(0, len(individuo)-1)] = vertice
+					i=i+1
+
 
 	return individuo
 
@@ -103,7 +105,7 @@ if __name__ == '__main__':
 	random.seed()
 	grafo = Graph.Read_GML("REDE/karate.gml") ### lendo o grafo no formato gml
 	populacao = definePopulacao(grafo.vs['id'], 10)
-	numGeracoes = 10
+	numGeracoes = 100
 	melhorAtual = 0
 	melhoresComunidades = []
 	melhoresFitness = []
@@ -144,7 +146,5 @@ if __name__ == '__main__':
 			populacao[i] = mutacao(taxaMutacao, populacao[i], grafo)
 
 
-
 	grafica(melhoresFitness)
-	#print(populacao.index(max(teste)))
 	

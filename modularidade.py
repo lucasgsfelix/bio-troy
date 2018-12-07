@@ -22,34 +22,34 @@ def contaComunidades(vertice, comunidades):
 	return quantComunidades
 
 
-def modularidadeExpandida(grafo, comunidades):
+def modularidadeExpandida(grafo, comunidades): 
 
+	A = grafo.get_adjacency()
 	''' Essa irá calcular a qualidade da rede como um todo, após definida as comunidades '''
-	m=1/(2*grafo.ecount())
+	m=1.0/(2*grafo.ecount())
 	soma = 0
 	for v in grafo.vs():
 		for w  in grafo.vs():
 			for k in comunidades:
-				if (v['id'] in k) and (w['id'] in k):
-					ov = contaComunidades(v['id'], comunidades)
-					ow = contaComunidades(w['id'], comunidades)
-					primeiraParte = (1.0/(ov*ow))
+				if (v.index in k) and (w.index in k):
+					ov = contaComunidades(v.index, comunidades)
+					ow = contaComunidades(w.index, comunidades)
+					
+					#primeiraParte = (1.0/(ov*ow))
+					primeiraParte = 1
+
+					kv = grafo.degree(vertices = v, mode = "ALL")
+					kw = grafo.degree(vertices = w, mode = "ALL")
+
+					segundaParte = (A[v.index][w.index]-(kv*kw*m))
 
 
-					kv = (grafo.neighborhood(vertices = v, mode = "ALL"))
-					if w['id'] in kv:
-						avw = 1
-					else:
-						avw = 0
-
-					kv = len(kv)
-					kw = len(grafo.neighborhood(vertices = w, mode = "ALL"))
-
-					#print(1 - kv*kw*m)
-					segundaParte = (avw-(kv*kw*m))
 					
 					soma = (primeiraParte*segundaParte) + soma
+
 	soma = m*soma
+
+	
 	return soma
 
 def retornaIds(grafo, lista):
