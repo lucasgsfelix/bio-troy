@@ -1,4 +1,5 @@
 import statistics
+import sys
 ## código responsável por fazer média, desvio padrão de nossos valores
 def leitura(arquivo):
 
@@ -43,9 +44,14 @@ def estatisticas(info, flag):
 
 	return string
 
-
+quebraTexto = (sys.argv[1]).split('.')
+#nSeeds, iCobertura, fit = leitura("saida_"+quebraTexto[0]+'.txt')
 nSeeds, iCobertura, fit = leitura("saida.txt")
-arq = open("tabelaLatex.txt", 'a')
-arq.write(estatisticas(info, 1)+estatisticas(iCobertura, 1) + estatisticas(fit, 0))
+
+try:
+	arq = open("tabelaLatex_"+quebraTexto[0]+'.txt', 'a')
+except:
+	arq = open("tabelaLatex_"+quebraTexto[0]+'.txt', 'w')
+arq.write(estatisticas(nSeeds, 1)+estatisticas(iCobertura, 1) + estatisticas(fit, 0))
 
 

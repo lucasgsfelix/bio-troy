@@ -112,7 +112,13 @@ if __name__ == '__main__':
 	
 	random.seed()
 	print("Número de seed -->", sys.argv[1] )
-	grafo = Graph.Read_GML("REDE/karate.gml") ### lendo o grafo no formato gml
+	print("Nome da Rede", sys.argv[2])
+	quebraTexto = (sys.argv[2]).split('.')
+	if quebraTexto[1] == "txt":
+		grafo = Graph.Read_Ncol("REDE/"+sys.argv[2])
+	else:
+		grafo = Graph.Read_GML("REDE/"+sys.argv[2]) ### lendo o grafo no formato gml
+
 	populacao = definePopulacao(grafo.vs['id'], 100, int(sys.argv[1]))
 	numGeracoes = 100
 	melhorAtual = 0
@@ -172,7 +178,10 @@ if __name__ == '__main__':
 	print("Indice de cobertura da Rede ", (len(list(results)))/grafo.vcount())
 	print("Modularidade ", max(melhoresFitness))'''
 	print(bestSeeds)
-	arq = open("saida.txt", 'a')
+	try:
+		arq = open("saida_"+quebraTexto[0]+".txt", 'a')
+	except:
+		arq = open("saida_"+quebraTexto[0]+".txt", 'w')
 
 	### aqui estou imprimindo em arquivo para realizar testes
 	### Estou imprimindo a quantidade de sementes, indice de cobertura, melhor fitness
