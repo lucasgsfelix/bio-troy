@@ -112,6 +112,7 @@ def fitness(grafo, populacao):
 	
 
 	comunidades = []
+
 	for i in populacao: ### etapa de expansão para cada um dos vértices
 
 		comunidades.append(expansaoDeVertices(i, grafo))

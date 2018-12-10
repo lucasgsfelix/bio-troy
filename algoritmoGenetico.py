@@ -3,13 +3,21 @@ import random
 import bio_troy
 import numpy as np
 import matplotlib.pyplot as plt
+import sys
 
-def definePopulacao(vertices, numIndividuos):
+def definePopulacao(vertices, numIndividuos, tamanhoIndividuo):
 
 	''' Define os vértices que serão os individuos '''
 	populacao = []
 	for i in range(0, numIndividuos):
-		tamanhoIndividuo = random.randint(1, len(vertices)-1)
+		if tamanhoIndividuo == 0:
+			tamanhoIndividuo = random.randint(1, len(vertices)-1)
+		else:
+			if tamanhoIndividuo>len(vertices)-1:
+				print("O tamanho do individuo não pode ser maior que o número de vértices !")
+				exit()
+
+		
 		j=0
 		individuo = []
 		while(j<(tamanhoIndividuo)):
@@ -103,8 +111,9 @@ def grafica(x1):
 if __name__ == '__main__':
 	
 	random.seed()
+	print("Número de seed -->", sys.argv[1] )
 	grafo = Graph.Read_GML("REDE/karate.gml") ### lendo o grafo no formato gml
-	populacao = definePopulacao(grafo.vs['id'], 10)
+	populacao = definePopulacao(grafo.vs['id'], 100, int(sys.argv[1]))
 	numGeracoes = 100
 	melhorAtual = 0
 	melhoresComunidades = []
@@ -146,5 +155,29 @@ if __name__ == '__main__':
 			populacao[i] = mutacao(taxaMutacao, populacao[i], grafo)
 
 
-	grafica(melhoresFitness)
+
+	#print(max(melhoresFitness))
+	bestSeeds = melhoresComunidades[melhoresFitness.index(max(melhoresFitness))]
+	comunidades = []
+	for i in bestSeeds:
+		comunidades.append(bio_troy.expansaoDeVertices(i, grafo))
+
+	#comunidades = set(comunidades)
+	results = set(x for l in comunidades for x in l)
+
+
+	'''print("------- Relatório-------")
+	print("Vértices Iniciais ", bestSeeds)
+	print("Comunidade Gerada ", comunidades)
+	print("Indice de cobertura da Rede ", (len(list(results)))/grafo.vcount())
+	print("Modularidade ", max(melhoresFitness))'''
+	print(bestSeeds)
+	arq = open("saida.txt", 'a')
+
+	### aqui estou imprimindo em arquivo para realizar testes
+	### Estou imprimindo a quantidade de sementes, indice de cobertura, melhor fitness
+	arq.write(str(len(bestSeeds))+'\t'+str((len(list(results)))/grafo.vcount())+'\t'+str(max(melhoresFitness))+'\n')
+
+	
+	#grafica(melhoresFitness)
 	
