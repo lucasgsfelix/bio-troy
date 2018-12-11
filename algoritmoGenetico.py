@@ -119,6 +119,9 @@ if __name__ == '__main__':
 	else:
 		grafo = Graph.Read_GML("REDE/"+sys.argv[2]) ### lendo o grafo no formato gml
 
+	for i in range(0, grafo.vcount()): ## defino os ids 
+		grafo.vs[i]['id'] = i
+
 	populacao = definePopulacao(grafo.vs['id'], 100, int(sys.argv[1]))
 	numGeracoes = 100
 	melhorAtual = 0

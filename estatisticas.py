@@ -22,7 +22,7 @@ def leitura(arquivo):
 
 	return nSeeds, iCobertura, fit
 
-def estatisticas(info, flag):
+def estatisticas(info, flag, msg):
 
 	estatisticas = []
 	estatisticas.extend([statistics.mean(info), max(info), min(info), statistics.stdev(info)])
@@ -40,18 +40,20 @@ def estatisticas(info, flag):
 	else:
 		string = string + "\\\\ \\cline{2-5}"
 
-	string = string + '\n'
+	string = msg + string + '\n'
+
+	print(string)
 
 	return string
 
 quebraTexto = (sys.argv[1]).split('.')
-#nSeeds, iCobertura, fit = leitura("saida_"+quebraTexto[0]+'.txt')
-nSeeds, iCobertura, fit = leitura("saida.txt")
+nSeeds, iCobertura, fit = leitura("saida_"+quebraTexto[0]+'.txt')
+#nSeeds, iCobertura, fit = leitura("saida_karate.txt")
 
 try:
 	arq = open("tabelaLatex_"+quebraTexto[0]+'.txt', 'a')
 except:
 	arq = open("tabelaLatex_"+quebraTexto[0]+'.txt', 'w')
-arq.write(estatisticas(nSeeds, 1)+estatisticas(iCobertura, 1) + estatisticas(fit, 0))
+arq.write(estatisticas(nSeeds, 1, "&Seeds")+estatisticas(iCobertura, 1, "&Cobertura") + estatisticas(fit, 0, "&Fitness"))
 
 

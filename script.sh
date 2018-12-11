@@ -1,9 +1,9 @@
-numSeeds=0
-redes=("karate.gml" "jazz.txt" "metabolic.txt")
-#redes=("jazz.txt" "metabolic.txt")
+numSeeds=2
+#redes=("karate.gml" "jazz.txt" "metabolic.txt")
+redes=("jazz.txt" "metabolic.txt")
 for rede in $redes; do
 	while [ $numSeeds -lt 6 ]; do
-		contador=4
+		contador=0
 		echo "Este é o numero de seed ", $numSeeds 
 		echo $rede
 		while [ $contador -lt 10 ]; do 
@@ -15,7 +15,7 @@ for rede in $redes; do
 		rm saida.txt
 		>> saida.txt
 		let numSeeds=numSeeds+1;
-		break;
+
 	done
-	break;
+
 done
