@@ -1,3 +1,5 @@
+#!/usr/bin/env python2.7.12
+#-*- coding: utf-8 -*-
 import statistics
 import sys
 ## código responsável por fazer média, desvio padrão de nossos valores

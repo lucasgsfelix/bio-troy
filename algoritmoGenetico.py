@@ -1,3 +1,5 @@
+#!/usr/bin/env python2.7.12
+#-*- coding: utf-8 -*-
 from igraph import *
 import random
 import bio_troy
@@ -188,7 +190,7 @@ if __name__ == '__main__':
 
 	### aqui estou imprimindo em arquivo para realizar testes
 	### Estou imprimindo a quantidade de sementes, indice de cobertura, melhor fitness
-	arq.write(str(len(bestSeeds))+'\t'+str((len(list(results)))/grafo.vcount())+'\t'+str(max(melhoresFitness))+'\n')
+	arq.write(str(len(bestSeeds))+'\t'+str((float(len(list(results))))/float(grafo.vcount()))+'\t'+str(max(melhoresFitness))+'\n')
 
 	
 	#grafica(melhoresFitness)

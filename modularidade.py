@@ -1,3 +1,5 @@
+#!/usr/bin/env python2.7.12
+#-*- coding: utf-8 -*-
 def calculaPesos(grafo):
 
 	'''Responsável por calcular o peso das arestas quando há e quando não há pesos'''
