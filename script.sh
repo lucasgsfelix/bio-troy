@@ -1,6 +1,6 @@
 numSeeds=2
-#redes=("karate.gml" "jazz.txt" "metabolic.txt")
-redes=("jazz.txt" "metabolic.txt")
+#redes=("karate.gml" "jazz.txt" "metabolic.txt" "zebra.txt" "dolphins.txt")
+redes=("dolphins.txt" "zebra.txt")
 for rede in $redes; do
 	while [ $numSeeds -lt 6 ]; do
 		contador=0
@@ -12,8 +12,7 @@ for rede in $redes; do
 		done
 		echo "Agora está sendo realizada as estatísticas para ", $numSeeds
 		python estatisticas.py $rede
-		rm saida.txt
-		>> saida.txt
+		$rede | cut -d'.' -f1 | rm "saida_$rede.txt"
 		let numSeeds=numSeeds+1;
 
 	done
