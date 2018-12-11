@@ -12,7 +12,7 @@ for rede in $redes; do
 		done
 		echo "Agora está sendo realizada as estatísticas para ", $numSeeds
 		python estatisticas.py $rede
-		$rede | cut -d'.' -f1 | rm "saida_$rede.txt"
+		rm "saida_$rede.txt" | $rede | cut -d'.' -f1
 		let numSeeds=numSeeds+1;
 
 	done
