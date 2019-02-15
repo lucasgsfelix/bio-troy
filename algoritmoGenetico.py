@@ -1,5 +1,3 @@
-#!/usr/bin/env python2.7.12
-#-*- coding: utf-8 -*-
 from igraph import *
 import random
 import bio_troy
@@ -50,7 +48,7 @@ def selecaoTorneio(fit, melhoresComunidades):
 
 def cruzamentoCorte(paiUm, paiDois):
 
-
+	tamanhoInicial =  len(paiUm)
 	pInicial = int(len(paiUm)/3)
 	meioUm = paiUm[pInicial:pInicial*2] ### coloquei metade um  meio do filho 1
 	meioDois = paiDois[pInicial:pInicial*2]
@@ -67,8 +65,17 @@ def cruzamentoCorte(paiUm, paiDois):
 		if not i in filhoDois:
 			filhoDois.append(i)
 
+	filhoUm = limitaTamanho(tamanhoInicial, filhoUm)
+	filhoDois = limitaTamanho(tamanhoInicial, filhoDois)
+
 	return filhoUm, filhoDois
 
+def limitaTamanho(tamanhoInicial, filho):
+
+	while(len(filho)>tamanhoInicial):
+		filho.pop(random.randint(0, len(filho)-1))
+
+	return filho
 
 def mutacao(taxaMutacao, individuo, grafo):
 
@@ -177,12 +184,12 @@ if __name__ == '__main__':
 	results = set(x for l in comunidades for x in l)
 
 
-	'''print("------- Relatório-------")
+	print("------- Relatório-------")
 	print("Vértices Iniciais ", bestSeeds)
 	print("Comunidade Gerada ", comunidades)
 	print("Indice de cobertura da Rede ", (len(list(results)))/grafo.vcount())
-	print("Modularidade ", max(melhoresFitness))'''
-	print(bestSeeds)
+	print("Modularidade ", max(melhoresFitness))
+	'''print(bestSeeds)
 	try:
 		arq = open("saida_"+quebraTexto[0]+".txt", 'a')
 	except:
@@ -190,8 +197,8 @@ if __name__ == '__main__':
 
 	### aqui estou imprimindo em arquivo para realizar testes
 	### Estou imprimindo a quantidade de sementes, indice de cobertura, melhor fitness
-	arq.write(str(len(bestSeeds))+'\t'+str((float(len(list(results))))/float(grafo.vcount()))+'\t'+str(max(melhoresFitness))+'\n')
+	arq.write(str(len(bestSeeds))+'\t'+str((len(list(results)))/grafo.vcount())+'\t'+str(max(melhoresFitness))+'\n')
 
-	
+	'''
 	#grafica(melhoresFitness)
 	
